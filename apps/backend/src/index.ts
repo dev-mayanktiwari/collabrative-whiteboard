@@ -2,7 +2,7 @@ import express, { Application, Request, Response, NextFunction } from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import { AppConfig } from "./config";
-import { MF } from "@repo/shared-utils";
+import {} from "@repo/shared-utils";
 
 const app: Application = express();
 const PORT = AppConfig.get("PORT");
@@ -13,12 +13,12 @@ app.use(cookieParser());
 
 // app.use("/api/v1/health", healthRouter);
 // app.use("/api/v1/auth", authRouter);
-console.log(MF);
+
 app.use((req: Request, _: Response, next: NextFunction) => {
   try {
     throw new Error("Not Found");
   } catch (error) {
-    next(error);
+    httpError;
   }
 });
 

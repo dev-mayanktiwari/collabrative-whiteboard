@@ -3,19 +3,26 @@ import dayjs from "dayjs";
 import path from "path";
 import "winston-mongodb";
 import { blue, green, magenta, red, yellow } from "colorette";
-import {
-  ConsoleTransportInstance,
-  FileTransportInstance,
-} from "winston/lib/winston/transports";
 import { createLogger, transports, format } from "winston";
-import { MongoDBTransportInstance } from "winston-mongodb";
 import { ApplicationEnvirontment } from "@repo/types";
 
-// Logger configuration interface
-export interface LoggerConfig {
-  env: "production" | "development";
+// Create a global config object that can be set once and used everywhere
+export const loggerConfig = {
+  env: ApplicationEnvirontment.DEVELOPMENT, // Default to development
+  mongoUrl: "",
+  logFilePath: "",
+};
+
+// Function to configure logger
+export function configureLogger(config: {
+  env?: string;
   mongoUrl?: string;
   logFilePath?: string;
+}) {
+  // Update the config with provided values
+  if (config.env) loggerConfig.env = config.env;
+  if (config.mongoUrl) loggerConfig.mongoUrl = config.mongoUrl;
+  if (config.logFilePath) loggerConfig.logFilePath = config.logFilePath;
 }
 
 const colorizeLevel = (level: string): string => {
@@ -74,57 +81,56 @@ const fileLogFormat = format.printf((info) => {
   return JSON.stringify(logData, null, 2);
 });
 
-const consoleTransport = (
-  config: LoggerConfig
-): Array<ConsoleTransportInstance> => {
-  if (config.env === ApplicationEnvirontment.DEVELOPMENT) {
-    return [
-      new transports.Console({
-        level: "info",
-        format: format.combine(format.timestamp(), consoleLogFormat),
-      }),
-    ];
-  }
-  return [];
-};
+// Create a function to get the appropriate transports based on the config
+const getTransports = () => {
+  const transportsArray = [];
 
-const mongoTransport = (
-  config: LoggerConfig
-): Array<MongoDBTransportInstance> => {
-  if (config.env === ApplicationEnvirontment.PRODUCTION && config.mongoUrl) {
-    return [
-      new transports.MongoDB({
-        level: "info",
-        db: config.mongoUrl,
-        expireAfterSeconds: 60 * 60 * 24 * 7, // 7 days
-      }),
-    ];
-  }
-  return [];
-};
-
-const fileTransport = (config: LoggerConfig): Array<FileTransportInstance> => {
+  // File transport (always included)
   const logPath =
-    config.logFilePath ||
-    path.join(__dirname, `../../../logs/${config.env}.log`);
-  return [
+    loggerConfig.logFilePath ||
+    path.join(__dirname, `../../../logs/${loggerConfig.env}.log`);
+  transportsArray.push(
     new transports.File({
       filename: logPath,
       level: "info",
       format: format.combine(format.timestamp(), fileLogFormat),
-    }),
-  ];
+    })
+  );
+
+  // Console transport (only in development)
+  if (loggerConfig.env === ApplicationEnvirontment.DEVELOPMENT) {
+    transportsArray.push(
+      new transports.Console({
+        level: "info",
+        format: format.combine(format.timestamp(), consoleLogFormat),
+      })
+    );
+  }
+
+  // MongoDB transport (only in production with MongoDB URL)
+  if (
+    loggerConfig.env === ApplicationEnvirontment.PRODUCTION &&
+    loggerConfig.mongoUrl
+  ) {
+    transportsArray.push(
+      new transports.MongoDB({
+        level: "info",
+        db: loggerConfig.mongoUrl,
+        expireAfterSeconds: 60 * 60 * 24 * 7, // 7 days
+      })
+    );
+  }
+
+  return transportsArray;
 };
 
-export const createAppLogger = (config: LoggerConfig) => {
-  return createLogger({
-    defaultMeta: {
-      meta: {},
-    },
-    transports: [
-      ...fileTransport(config),
-      ...consoleTransport(config),
-      ...mongoTransport(config),
-    ],
-  });
-};
+// Create the logger with dynamic transports
+export const logger = createLogger({
+  defaultMeta: {
+    meta: {},
+  },
+  transports: getTransports(),
+});
+
+// Export a utility function to get the current environment
+export const getEnv = () => loggerConfig.env;

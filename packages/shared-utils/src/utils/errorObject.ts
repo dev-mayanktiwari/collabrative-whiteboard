@@ -1,13 +1,12 @@
 import { Request } from "express";
 import { THTTPError } from "@repo/types";
 import { ResponseMessage } from "@repo/types";
-import { logger } from "./logger";
+import { logger, getEnv } from "./logger";
 
 const errorObject = (
   error: Error | unknown,
   req: Request,
-  errorStatusCode: number = 500,
-  env: string = "development"
+  errorStatusCode: number = 500
 ): THTTPError => {
   const errorObject: THTTPError = {
     success: false,
@@ -29,8 +28,8 @@ const errorObject = (
     meta: errorObject,
   });
 
-  // Production ENV check
-  if (env === "production") {
+  // Production ENV check - use the current env value from the logger config
+  if (getEnv() === "production") {
     delete errorObject.request.ip;
     delete errorObject.trace;
   }

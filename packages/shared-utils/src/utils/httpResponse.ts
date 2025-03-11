@@ -1,16 +1,14 @@
 import { Request, Response } from "express";
 import { THTTPResponse } from "@repo/types";
 import { ApplicationEnvirontment } from "@repo/types";
-import { TApplicationEnvirontment } from "@repo/types";
-import { logger } from "./logger";
+import { logger, getEnv } from "./logger";
 
 const httpResponse = (
   req: Request,
   res: Response,
   responseStatusCode: number,
   responseMessage: string,
-  data: unknown = null,
-  env: TApplicationEnvirontment = "development"
+  data: unknown = null
 ) => {
   const response: THTTPResponse = {
     success: true,
@@ -28,8 +26,8 @@ const httpResponse = (
     meta: response,
   });
 
-  //Production env check
-  if (env === ApplicationEnvirontment.PRODUCTION) {
+  // Production env check - use the current env value from the logger config
+  if (getEnv() === ApplicationEnvirontment.PRODUCTION) {
     delete response.request.ip;
   }
 

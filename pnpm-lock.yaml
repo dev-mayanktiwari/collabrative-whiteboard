@@ -29,6 +29,9 @@ importers:
       '@repo/shared-utils':
         specifier: workspace:*
         version: link:../../packages/shared-utils
+      '@repo/types':
+        specifier: workspace:*
+        version: link:../../packages/types
       cookie-parser:
         specifier: ^1.4.7
         version: 1.4.7

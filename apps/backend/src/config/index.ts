@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 type configKeys = "PORT" | "NODE_ENV" | "MONGO_URI";
 
@@ -21,7 +21,7 @@ export const AppConfig = {
     if (key === "PORT") {
       return parseInt(value);
     }
-    
+
     return value;
   },
 };

@@ -2,28 +2,55 @@ import { AppConfig } from "@/config";
 import FormData from "form-data";
 import Mailgun from "mailgun.js";
 
-async function SendEmail(email: string, name: string) {
-  const mailgun = new Mailgun(FormData);
-  const mg = mailgun.client({
-    username: "api",
-    key: String(process.env.MAILGUN_API_KEY),
-  });
+const mailgun = new Mailgun(FormData);
+const mg = mailgun.client({
+  username: "api",
+  key: String(process.env.MAILGUN_API_KEY),
+});
 
-  try {
-    const data = await mg.messages.create(
-      String(AppConfig.get("MAILGUN_DOMAIN")),
-      {
-        from: "SMARTDRAW <no-reply@support.mayanktiwari.tech>",
-        to: [`${name.toUpperCase()} <${email.toLowerCase()}>`],
-        subject: "Hello Mayank Tiwari",
-        text: "Congratulations Mayank Tiwari, you just sent an email with Mailgun! You are truly awesome!",
-      }
-    );
+const MAILGUN_DOMAIN = String(AppConfig.get("MAILGUN_DOMAIN"));
+const FROM_EMAIL = "SMARTDRAW <no-reply@support.mayanktiwari.tech>";
+const FRONTEND_URL = String(AppConfig.get("FRONTEND_URL"));
 
-    console.log(data); // logs response data
-  } catch (error) {
-    console.log(error); //logs any error
-  }
-}
-
-export default SendEmail;
+export default {
+  sendVerificationEmail: async (
+    to: string,
+    name: string,
+    verificationToken: string,
+    code: string
+  ) => {
+    try {
+      const verificationLink = `${FRONTEND_URL}/verify-email?token=${verificationToken}&code=${code}`;
+      const data = await mg.messages.create(MAILGUN_DOMAIN, {
+        from: FROM_EMAIL,
+        to: [`"${name.toUpperCase()}" <${to.toLowerCase()}>`],
+        subject: "You're Almost There! Verify Your Email to Get Started 🎨",
+        template: "Account Verification Email",
+        "h:X-Mailgun-Variables": JSON.stringify({
+          email_verification_link: verificationLink,
+          name: name,
+        }),
+      });
+      return { success: true, info: data };
+    } catch (error) {
+      return { success: false, info: error };
+    }
+  },
+  sendWelcomeEmail: async (to: string, name: string) => {
+    try {
+      const data = await mg.messages.create(MAILGUN_DOMAIN, {
+        from: FROM_EMAIL,
+        to: [`"${name.toUpperCase()}" <${to.toLowerCase()}>`],
+        subject: "Welcome to SMARTDRAW 🎨",
+        template: "Welcome Email",
+        "h:X-Mailgun-Variables": JSON.stringify({
+          name: name,
+          frontend_url: FRONTEND_URL,
+        }),
+      });
+      return { success: true, info: data };
+    } catch (error) {
+      return { success: false, info: error };
+    }
+  },
+};

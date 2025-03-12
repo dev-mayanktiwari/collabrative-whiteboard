@@ -7,7 +7,8 @@ type configKeys =
   | "ENV"
   | "SALT_ROUNDS"
   | "MAILGUN_API_KEY"
-  | "MAILGUN_DOMAIN";
+  | "MAILGUN_DOMAIN"
+  | "FRONTEND_URL";
 
 const _config: Record<configKeys, string | undefined> = {
   PORT: process.env.PORT,
@@ -16,6 +17,7 @@ const _config: Record<configKeys, string | undefined> = {
   ENV: process.env.ENV,
   MAILGUN_API_KEY: process.env.MAILGUN_API_KEY,
   MAILGUN_DOMAIN: process.env.MAILGUN_DOMAIN,
+  FRONTEND_URL: process.env.FRONTEND_URL,
 };
 
 export const AppConfig = {

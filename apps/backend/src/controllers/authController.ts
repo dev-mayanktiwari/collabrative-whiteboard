@@ -1,11 +1,16 @@
 import { NextFunction, Request, Response } from "express";
 import bcrypt from "bcrypt";
-import { asyncErrorHandler, httpError, httpResponse } from "@repo/shared-utils";
+import {
+  asyncErrorHandler,
+  httpError,
+  httpResponse,
+  logger,
+} from "@repo/shared-utils";
 import { ResponseMessage, StatusCodes, UserRegisterInput } from "@repo/types";
 import userDbServices from "@/services/userDbServices";
 import { AppConfig } from "@/config";
 import quicker from "@/utils/quicker";
-import SendEmail from "@/utils/sendEmail";
+import sendEmail from "@/utils/sendEmail";
 
 export default {
   register: asyncErrorHandler(
@@ -54,7 +59,46 @@ export default {
         verificationToken.expiry
       );
 
-      await SendEmail(email, name);
+      const resultVerificationEmail = await sendEmail.sendVerificationEmail(
+        email,
+        name,
+        verificationToken.token,
+        String(code)
+      );
+
+      // const resultWelcomeEmail = await sendEmail.sendWelcomeEmail(email, name);
+
+      if (!resultVerificationEmail.success) {
+        logger.warn("Account verification email sending failed", {
+          meta: {
+            to: email,
+            name,
+            error: resultVerificationEmail.info,
+          },
+        });
+      }
+
+      // if (!resultWelcomeEmail.success) {
+      //   logger.warn("Welcome email sending failed", {
+      //     meta: {
+      //       to: email,
+      //       name,
+      //       error: resultWelcomeEmail.info,
+      //     },
+      //   });
+      // }
+
+      logger.info(
+        "User created successfully and verification and welcome email sent.",
+        {
+          meta: {
+            email,
+            name,
+            username,
+            verificationEmailData: resultVerificationEmail.info,
+          },
+        }
+      );
 
       return httpResponse(
         req,
@@ -68,4 +112,5 @@ export default {
       );
     }
   ),
+  
 };

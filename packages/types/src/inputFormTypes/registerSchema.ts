@@ -6,7 +6,7 @@ export const UserRegisterInput = z.object({
     .min(5, "Name must be atleast 5 characters long")
     .max(50, "Name must be atmax 50 characters long")
     .trim(),
-  email: z.string().email(),
+  email: z.string().email().toLowerCase(),
   password: z
     .string()
     .min(8, "Password must be 8 characters long")

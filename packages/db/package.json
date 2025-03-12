@@ -1,27 +1,33 @@
 {
   "name": "@repo/db",
   "version": "1.0.0",
+  "description": "It contains the database logic.",
+  "main": "index.js",
   "scripts": {
+    "db:push": "prisma db push",
     "db:generate": "prisma generate",
-    "db:seed": "prisma db seed",
     "db:migrate": "prisma migrate dev",
-    "db:migrate:deploy": "prisma migrate deploy",
     "db:studio": "prisma studio"
   },
-  "prisma": {
-    "seed": "ts-node prisma/seed.ts"
-  },
-  "license": "ISC",
-  "description": "",
   "exports": {
-    "./client": "./src/index.ts"
+    "." : "./src/index.ts"
+  },
+  "keywords": [
+    "database",
+    "db",
+    "sql",
+    "postgres",
+    "prisma"
+  ],
+  "author": "Mayank Tiwari <devmayanktiwari@gmail.com>",
+  "license": "ISC",
+  "devDependencies": {
+    "@repo/typescript-config": "workspace:*",
+    "prisma": "^6.3.0",
+    "tsup": "^8.1.0"
   },
   "dependencies": {
-    "@prisma/client": "5.19.1",
+    "@prisma/client": "6.3.0",
     "dotenv": "^16.4.5"
-  },
-  "devDependencies": {
-    "@types/node": "^22.5.0",
-    "prisma": "^5.19.1"
   }
 }

@@ -1,7 +1,7 @@
 import { v6 } from "uuid";
 import os from "os";
 import { AppConfig } from "../config";
-import dayjs from "dayjs";
+import dayjs, { ManipulateType } from "dayjs";
 
 export default {
   getSystemHealth: () => {
@@ -25,9 +25,13 @@ export default {
       },
     };
   },
-  generateVerifyToken: () => {
+  generateVerifyToken: (amount: number, unit: ManipulateType) => {
     const token = v6();
-    return token;
+    const expiry = dayjs().add(amount, unit).toISOString();
+    return {
+      token,
+      expiry,
+    };
   },
   generateCode: (n: number) => {
     if (n <= 0) {

@@ -5,6 +5,7 @@ import { AppConfig } from "./config";
 import { httpError, configureLogger, logger } from "@repo/shared-utils";
 import globalErrorHandler from "./middlewares/globalErrorHandler";
 import healthRouter from "./routers/healthRouter";
+import authRouter from "./routers/authRouter";
 
 const app: Application = express();
 const PORT = AppConfig.get("PORT");
@@ -18,7 +19,7 @@ configureLogger({
 });
 
 app.use("/api/v1/health", healthRouter);
-// app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/auth", authRouter);
 
 app.use((req: Request, _: Response, next: NextFunction) => {
   try {

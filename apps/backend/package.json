@@ -11,12 +11,15 @@
     "rebuild": "rm -rf node_modules && pnpm install && tsup",
     "restart": "rm -rf node_modules && tsup --watch --onSuccess \"node dist/index.js\""
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "express",
+    "typescript",
+    "backend"
+  ],
+  "author": "Mayank Tiwari <devmayanktiwari@gmail.com>",
   "license": "ISC",
-  "description": "",
+  "description": "Backend for the SmartDraw application.",
   "dependencies": {
-    "@prisma/client": "5.19.1",
     "@repo/db": "workspace:*",
     "@repo/shared-utils": "workspace:*",
     "@repo/types": "workspace:*",
@@ -32,7 +35,6 @@
     "@types/cookie-parser": "^1.4.8",
     "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
-    "prisma": "^5.19.1",
     "tsup": "^8.1.0"
   }
 }

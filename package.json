@@ -1,5 +1,5 @@
 {
-  "name": ".",
+  "name": "smartdraw",
   "private": true,
   "scripts": {
     "build": "turbo build",

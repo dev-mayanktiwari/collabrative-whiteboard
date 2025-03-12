@@ -5,6 +5,7 @@ import { ResponseMessage, StatusCodes, UserRegisterInput } from "@repo/types";
 import userDbServices from "@/services/userDbServices";
 import { AppConfig } from "@/config";
 import quicker from "@/utils/quicker";
+import SendEmail from "@/utils/sendEmail";
 
 export default {
   register: asyncErrorHandler(
@@ -52,6 +53,8 @@ export default {
         String(code),
         verificationToken.expiry
       );
+
+      await SendEmail(email, name);
 
       return httpResponse(
         req,

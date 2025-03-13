@@ -572,4 +572,16 @@ export default {
       user: responseUser,
     });
   }),
+
+  authStatus: asyncErrorHandler(async (req: Request, res: Response) => {
+    return httpResponse(
+      req,
+      res,
+      StatusCodes.SUCCESS.OK,
+      "User authenticated successfully",
+      {
+        isAuthenticated: true,
+      }
+    );
+  }),
 };

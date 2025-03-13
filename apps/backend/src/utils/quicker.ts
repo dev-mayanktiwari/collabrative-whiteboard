@@ -44,4 +44,10 @@ export default {
   generateExpiryTime: (minutes: number) => {
     return dayjs().add(minutes, "minutes").toISOString();
   },
+  calculateTimeDifference: (start: Date) => {
+    const initTime = dayjs(start);
+    const currentTime = dayjs();
+    const diff = currentTime.diff(initTime, "minutes");
+    return diff;
+  },
 };

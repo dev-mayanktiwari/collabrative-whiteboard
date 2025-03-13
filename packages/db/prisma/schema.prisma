@@ -14,12 +14,13 @@ datasource db {
 }
 
 model User {
-  id                 String              @id @default(cuid())
+  userId             String              @id @default(cuid())
   email              String              @unique
   name               String
   username           String              @unique
   password           String?
   isVerified         Boolean             @default(false)
+  isActive           Boolean             @default(true)
   avatar             String?
   provider           PROVIDER            @default(EMAIL)
   providerId         String?
@@ -29,24 +30,31 @@ model User {
   resetPasswordToken ResetPasswordToken?
   createdAt          DateTime            @default(now())
   updatedAt          DateTime            @updatedAt
+
+  @@index([email, username, userId])
+  @@map("users")
 }
 
 model VerificationToken {
   id                String   @id @default(cuid())
   userId            String   @unique
-  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user              User     @relation(fields: [userId], references: [userId], onDelete: Cascade)
   verificationToken String   @unique
   expiresAt         DateTime
   createdAt         DateTime @default(now())
+
+  @@map("verification_token")
 }
 
 model ResetPasswordToken {
   id                 String   @id @default(cuid())
   userId             String   @unique
-  user               User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user               User     @relation(fields: [userId], references: [userId], onDelete: Cascade)
   resetPasswordToken String   @unique
   expiresAt          DateTime
   createdAt          DateTime @default(now())
+
+  @@map("reset_password_token")
 }
 
 enum PROVIDER {

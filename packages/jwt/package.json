@@ -1,0 +1,32 @@
+{
+  "name": "@repo/jwt",
+  "version": "1.0.0",
+  "description": "This is a JWT token management package.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "tsup --watch",
+    "build": "tsup",
+    "clean": "rm -rf dist"
+  },
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "devDependencies": {
+    "@repo/typescript-config": "workspace:*",
+    "@types/dotenv": "^8.2.3",
+    "@types/jsonwebtoken": "^9.0.9",
+    "tsup": "^8.1.0"
+  },
+  "keywords": [
+    "jwt",
+    "token",
+    "auth"
+  ],
+  "author": "Mayank Tiwari <devmayanktiwari@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "@repo/types": "workspace:*",
+    "dotenv": "^16.4.5",
+    "jsonwebtoken": "^9.0.2"
+  }
+}

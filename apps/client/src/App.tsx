@@ -1,9 +1,9 @@
-import NavBar from "./components/neutral/NavBar";
+import Home from "./pages/Home";
 
 const App = () => {
   return (
     <div>
-      <NavBar />
+      <Home />
     </div>
   );
 };

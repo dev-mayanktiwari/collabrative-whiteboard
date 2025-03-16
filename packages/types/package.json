@@ -1,14 +1,21 @@
 {
   "name": "@repo/types",
   "version": "1.0.0",
-  "description": "",
+  "description": "This is the types package.",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "scripts": {
     "dev": "tsup --watch",
     "build": "tsup",
     "clean": "rm -rf dist"
   },
   "exports": {
-    ".": "./dist/index.js"
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
   },
   "keywords": [
     "types",

@@ -17,7 +17,7 @@ export default function ShapesDecoration() {
       <div className="absolute bottom-32 left-10 w-20 h-20 bg-[#FFE156] border-3 border-black transform -rotate-12"></div>
 
       {/* Middle left small circle */}
-      <div className="absolute top-1/2 left-1/4 w-12 h-12 bg-[#FF90B3] border-2 border-black rounded-full"></div>
+      {/* <div className="absolute top-1/2 left-1/4 w-12 h-12 bg-[#FF90B3] border-2 border-black rounded-full"></div> */}
     </div>
   );
 }

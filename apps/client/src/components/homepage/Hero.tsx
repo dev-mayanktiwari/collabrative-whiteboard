@@ -4,8 +4,8 @@ import CanvasPreview from "./CanvasPreview";
 
 const Hero = () => {
   return (
-    <div className="bg-bg mx-auto pt-16 pb-24">
-      <div className="container mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
+    <div className="bg-bg mx-auto pt-16 pb-24 z-10">
+      <div className="container mx-auto flex flex-col md:flex-row items-center justify-between gap-8 z-10">
         <div className="max-w-xl">
           <h2 className="text-4xl sm:text-5xl md:text-6xl font-black logo-text leading-tight mb-5">
             <span className="bg-blueCustom px-2 py-2 inline-block rotate-[-1deg] transform -skew-x-1">
@@ -16,7 +16,7 @@ const Hero = () => {
               Create Together
             </span>
           </h2>
-          <p className="text-lg sm:text-xl mb-8 max-w-lg">
+          <p className="text-lg sm:text-xl mb-8 max-w-lg ">
             The AI-powered collaborative whiteboard platform for teams that want
             to sketch, brainstorm, and create together with the help of
             artificial intelligence.

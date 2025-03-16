@@ -1,4 +1,3 @@
-import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import App from "./App.tsx";
 import "./index.css";
@@ -8,6 +7,7 @@ import { RecoilRoot } from "recoil";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { Toaster } from "@repo/ui";
 import LoginPage from "./components/login/LoginForm.tsx";
+import Register from "./pages/Register.tsx";
 
 const router = createBrowserRouter([
   {
@@ -18,17 +18,25 @@ const router = createBrowserRouter([
     path: "/login",
     element: <LoginPage />,
   },
+  {
+    path: "/register",
+    element: <Register />,
+  },
+  {
+    path: "*",
+    element: (
+      <div className="font-extrabold text-4xl text-red-600">404 Not Found</div>
+    ),
+  },
 ]);
 
 const queryClient = new QueryClient();
 
 createRoot(document.getElementById("root")!).render(
-  <StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <RecoilRoot>
-        <Toaster />
-        <RouterProvider router={router} />
-      </RecoilRoot>
-    </QueryClientProvider>
-  </StrictMode>
+  <QueryClientProvider client={queryClient}>
+    <RecoilRoot>
+      <Toaster />
+      <RouterProvider router={router} />
+    </RecoilRoot>
+  </QueryClientProvider>
 );

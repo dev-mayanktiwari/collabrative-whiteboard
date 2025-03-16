@@ -1,9 +1,16 @@
-import { defineConfig, type Options } from "tsup";
+import { defineConfig } from "tsup";
 
-export default defineConfig((options: Options) => ({
-  entryPoints: ["src/index.ts"],
+export default defineConfig({
+  entry: ["src/index.ts"],
+  format: ["cjs", "esm"], // Output both CommonJS and ESM formats
+  dts: true, // Generate declaration files
+  splitting: false,
+  sourcemap: true,
   clean: true,
-  dts: true,
-  format: ["cjs"],
-  ...options,
-}));
+  target: "es2018", // Compatible with modern browsers and Node
+  outDir: "dist",
+  // Handle platform-specific code if needed
+  esbuildOptions(options) {
+    options.conditions = ["node", "import"];
+  },
+});

@@ -9,7 +9,8 @@ type configKeys =
   | "MAILGUN_API_KEY"
   | "MAILGUN_DOMAIN"
   | "FRONTEND_URL"
-  | "COOKIE_DOMAIN";
+  | "COOKIE_DOMAIN"
+  | "CORS_ORIGIN";
 
 const _config: Record<configKeys, string | undefined> = {
   PORT: process.env.PORT,
@@ -20,6 +21,7 @@ const _config: Record<configKeys, string | undefined> = {
   MAILGUN_DOMAIN: process.env.MAILGUN_DOMAIN,
   FRONTEND_URL: process.env.FRONTEND_URL,
   COOKIE_DOMAIN: process.env.COOKIE_DOMAIN,
+  CORS_ORIGIN: process.env.CORS_ORIGIN,
 };
 
 export const AppConfig = {

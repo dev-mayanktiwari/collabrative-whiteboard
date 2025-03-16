@@ -10,7 +10,12 @@ import authRouter from "./routers/authRouter";
 const app: Application = express();
 const PORT = AppConfig.get("PORT");
 
-app.use(cors());
+app.use(
+  cors({
+    origin: String(AppConfig.get("CORS_ORIGIN")),
+    credentials: true,
+  })
+);
 app.use(express.json());
 app.use(cookieParser());
 

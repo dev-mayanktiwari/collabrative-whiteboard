@@ -8,6 +8,7 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { Toaster } from "@repo/ui";
 import LoginPage from "./components/login/LoginForm.tsx";
 import Register from "./pages/Register.tsx";
+import VerifyEmail from "./pages/VerifyEmal.tsx";
 
 const router = createBrowserRouter([
   {
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
   {
     path: "/register",
     element: <Register />,
+  },
+  {
+    path: "/verify-email",
+    element: <VerifyEmail />,
   },
   {
     path: "*",

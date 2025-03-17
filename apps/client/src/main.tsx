@@ -6,9 +6,13 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { RecoilRoot } from "recoil";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { Toaster } from "@repo/ui";
-import LoginPage from "./components/login/LoginForm.tsx";
 import Register from "./pages/Register.tsx";
 import VerifyEmail from "./pages/VerifyEmal.tsx";
+import ProtectedDashboard from "./pages/Dashboard.tsx";
+import AuthWrapper from "./components/providers/AuthWrapper.tsx";
+import Dashboard from "./pages/Dashboard.tsx";
+import Login from "./pages/Login.tsx";
+import ProtectedRoute from "./components/providers/Protection.tsx";
 
 const router = createBrowserRouter([
   {
@@ -17,7 +21,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/login",
-    element: <LoginPage />,
+    element: <Login />,
   },
   {
     path: "/register",
@@ -26,6 +30,16 @@ const router = createBrowserRouter([
   {
     path: "/verify-email",
     element: <VerifyEmail />,
+  },
+  {
+    path: "/dashboard",
+    element: <ProtectedRoute />,
+    children: [
+      {
+        path: "",
+        element: <Dashboard />,
+      },
+    ],
   },
   {
     path: "*",
@@ -40,8 +54,10 @@ const queryClient = new QueryClient();
 createRoot(document.getElementById("root")!).render(
   <QueryClientProvider client={queryClient}>
     <RecoilRoot>
-      <Toaster />
-      <RouterProvider router={router} />
+      <AuthWrapper>
+        <Toaster />
+        <RouterProvider router={router} />
+      </AuthWrapper>
     </RecoilRoot>
   </QueryClientProvider>
 );

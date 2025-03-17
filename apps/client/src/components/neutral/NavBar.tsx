@@ -1,11 +1,13 @@
+import { authState } from "@repo/store";
 import { Button } from "@repo/ui";
 import { PenTool } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { useAuth } from "~/hooks/useAuth";
 
-interface NavBarProps {
-  areButtonNeeded?: boolean;
-}
-const NavBar = ({ areButtonNeeded = false }: NavBarProps) => {
+const NavBar = () => {
+  const { user } = useRecoilValue(authState);
+  const { logOut } = useAuth();
   const navigate = useNavigate();
   return (
     <header
@@ -14,7 +16,10 @@ const NavBar = ({ areButtonNeeded = false }: NavBarProps) => {
     >
       <div className="container mx-auto flex justify-between items-center py-4">
         {/* LOGO WITH ICON START */}
-        <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate("/")}>
+        <div
+          className="flex items-center gap-2 cursor-pointer"
+          onClick={() => navigate("/")}
+        >
           <div>
             <PenTool className="w-8 h-8" />
           </div>
@@ -22,22 +27,27 @@ const NavBar = ({ areButtonNeeded = false }: NavBarProps) => {
         </div>
         {/* LOGO WITH ICON END */}
         {/* BUTTON START */}
-        {areButtonNeeded && (
-          <div className="flex items-center gap-4">
+
+        <div className="flex items-center gap-4">
+          {user ? (
+            <Button className="bg-blueCustom" onClick={logOut}>
+              Logout
+            </Button>
+          ) : (
             <Button
               className="bg-blueCustom"
               onClick={() => navigate("/login")}
             >
               Login
             </Button>
-            <Button
-              className="bg-pinkCustom"
-              onClick={() => navigate("/register")}
-            >
-              Register
-            </Button>
-          </div>
-        )}
+          )}
+          {/* <Button
+            className="bg-pinkCustom"
+            onClick={() => navigate("/register")}
+          >
+            Register
+          </Button> */}
+        </div>
       </div>
       {/* BUTTON END */}
     </header>

@@ -17,6 +17,7 @@ import {
   ForgotUserInput,
   ResetSetNewPasswordInput,
   ChangePasswordSchema,
+  TVerifyEmailInput,
 } from "@repo/types";
 import userDbServices from "@/services/userDbServices";
 import { AppConfig } from "@/config";
@@ -127,7 +128,7 @@ export default {
 
   verifyEmail: asyncErrorHandler(
     async (req: Request, res: Response, next: NextFunction) => {
-      const { token, code } = req.query;
+      const { token, code } = req.query as TVerifyEmailInput;
       if (!token || !code) {
         return httpError(
           next,
@@ -467,7 +468,7 @@ export default {
   ),
 
   logout: asyncErrorHandler(async (req: Request, res: Response) => {
-    const { cookies, user } = req as AuthenticatedRequest;
+    const { cookies } = req as AuthenticatedRequest;
     const { refreshToken } = cookies as { refreshToken: string | undefined };
 
     const clearAuthCookies = () => {
@@ -482,8 +483,20 @@ export default {
       res.clearCookie("refreshToken", cookieOptions);
     };
 
+    const payload = JWTManager.verifyRefreshToken(refreshToken!);
+
+    if (!payload) {
+      clearAuthCookies();
+      return httpResponse(
+        req,
+        res,
+        StatusCodes.SUCCESS.OK,
+        ResponseMessage.LOGOUT_SUCCESS
+      );
+    }
+
     if (refreshToken) {
-      await userDbServices.updateRefreshToken(user?.userId!, null);
+      await userDbServices.updateRefreshToken(payload.userId!, null);
     }
 
     clearAuthCookies();
@@ -499,7 +512,7 @@ export default {
   refreshToken: asyncErrorHandler(async (req: Request, res: Response) => {
     const { cookies } = req;
     const { refreshToken } = cookies as { refreshToken: string | undefined };
-
+    console.log("Refresh token", refreshToken);
     if (!refreshToken) {
       return httpResponse(
         req,
@@ -510,6 +523,7 @@ export default {
     }
 
     const payload = JWTManager.verifyRefreshToken(refreshToken);
+    console.log("Payload", payload);
 
     if (!payload) {
       return httpResponse(
@@ -521,7 +535,7 @@ export default {
     }
 
     const user = await userDbServices.findUserById(payload.userId);
-
+    console.log("User", user);
     if (!user) {
       return httpResponse(
         req,
@@ -536,7 +550,7 @@ export default {
       email: user.email,
       name: user.name,
     });
-
+    console.log("Access token", accessToken);
     const responseUser = {
       name: user.name,
       id: user.userId,

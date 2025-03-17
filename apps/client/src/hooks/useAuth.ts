@@ -2,6 +2,7 @@ import { authState } from "@repo/store";
 import { TUserLoginInput } from "@repo/types";
 import { useRecoilState } from "recoil";
 import api from "~/api/api";
+import apiClient from "~/api/apiClient";
 
 export const useAuth = () => {
   const [auth, setAuth] = useRecoilState(authState);
@@ -21,6 +22,22 @@ export const useAuth = () => {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("currentUser");
     setAuth({ accessToken: null, user: null });
+    window.location.href = "/login";
   };
-  return { auth, login, logOut };
+
+  const checkAuth = async () => {
+    try {
+      const data = await apiClient.self();
+      console.log("Calling from inside hooks/useAuth.ts", data);
+      setAuth({
+        accessToken: localStorage.getItem("accessToken"),
+        user: data.data.user,
+      });
+    } catch (error) {
+      console.log("Calling from inside hooks/useAuth.ts for logout", error);
+      logOut();
+    }
+  };
+
+  return { auth, login, logOut, checkAuth };
 };

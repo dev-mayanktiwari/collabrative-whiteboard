@@ -6,8 +6,8 @@ const authRouter: Router = Router();
 
 authRouter.post("/register", authController.register);
 authRouter.post("/login", authController.login);
-authRouter.put("/logout", AuthMiddleware, authController.logout);
-authRouter.get("/refresh-token", authController.refreshToken);
+authRouter.put("/logout", authController.logout);
+authRouter.put("/refresh-token", authController.refreshToken);
 authRouter.put("/forgot-password", authController.forgotPassword);
 authRouter.put("/reset-password", authController.resetPassword);
 authRouter.put("/verify-email", authController.verifyEmail);

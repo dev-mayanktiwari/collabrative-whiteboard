@@ -13,4 +13,14 @@ export default {
     );
     return response.data;
   },
+
+  self: async () => {
+    const response = await api.get("/auth/self");
+    return response.data;
+  },
+
+  logout: async () => {
+    const response = await api.put("/auth/logout");
+    return response.data;
+  },
 };

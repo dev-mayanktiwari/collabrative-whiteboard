@@ -23,4 +23,37 @@ export default {
     const response = await api.put("/auth/logout");
     return response.data;
   },
+
+  getRooms: async () => {
+    const response = await api.get("/rooms/get-rooms");
+    return response.data;
+  },
+
+  renameRoom: async (roomId: string, name: string) => {
+    const response = await api.put(`/rooms/rename-room`, {
+      name: name,
+      roomId: roomId,
+    });
+    return response.data;
+  },
+
+  deleteRoom: async (roomId: string) => {
+    const response = await api.delete(`/rooms/delete-room`, {
+      data: { roomId },
+    });
+    return response.data;
+  },
+
+  getRoomById: async (roomId: string) => {
+    const response = await api.get(`/rooms/get-room/${roomId}`);
+    return response.data;
+  },
+
+  updateShapes: async (roomId: string, shapes: object) => {
+    const response = await api.put(`/rooms/update-room-shapes`, {
+      roomId,
+      shapes,
+    });
+    return response.data;
+  },
 };

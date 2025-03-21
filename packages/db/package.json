@@ -2,6 +2,9 @@
   "name": "@repo/db",
   "version": "1.0.0",
   "description": "It contains the database logic.",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "scripts": {
     "dev": "tsup --watch",
     "build": "tsup",
@@ -12,7 +15,11 @@
     "db:studio": "prisma studio"
   },
   "exports": {
-    ".": "./dist/index.js"
+    ".": {
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.js"
+    }
   },
   "keywords": [
     "database",

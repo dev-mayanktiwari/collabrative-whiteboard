@@ -7,6 +7,7 @@
         "declarationMap": true,
         "sourceMap": true,
         "strict": true,
+        "declarationDir": "dist",
     }, 
     "exclude": ["node_modules"],
     "include": ["./src"]

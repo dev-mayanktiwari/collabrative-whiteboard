@@ -5,3 +5,4 @@ export * from "./changePasswordSchema";
 export * from "./resetSetNewPasswordSchema";
 export * from "./responseUser";
 export * from "./verifyEmailInput";
+export * from "./roomTypes";

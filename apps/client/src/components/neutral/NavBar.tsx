@@ -41,12 +41,14 @@ const NavBar = () => {
               Login
             </Button>
           )}
-          {/* <Button
-            className="bg-pinkCustom"
-            onClick={() => navigate("/register")}
-          >
-            Register
-          </Button> */}
+          {user ? (
+            <Button
+              className="bg-pinkCustom"
+              onClick={() => navigate("/dashboard")}
+            >
+              Dashboard
+            </Button>
+          ) : null}
         </div>
       </div>
       {/* BUTTON END */}

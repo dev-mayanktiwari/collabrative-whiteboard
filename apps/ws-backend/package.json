@@ -1,0 +1,27 @@
+{
+  "name": "ws-backend",
+  "version": "1.0.0",
+  "description": "This is websocket backend",
+  "main": "index.js",
+  "scripts": {},
+  "devDependencies": {
+    "@repo/typescript-config": "workspace:*",
+    "@types/websocket": "^1.0.10",
+    "@types/ws": "^8.18.0",
+    "tsup": "^8.1.0"
+  },
+  "keywords": [
+    "websocket",
+    "backend"
+  ],
+  "author": "Mayank Tiwari <devmayanktiwari@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "@repo/db": "workspace:*",
+    "ws": "^8.18.1",
+    "y-websocket": "^2.1.0",
+    "yjs": "^13.6.24",
+    "@repo/types": "workspace:*",
+    "@repo/jwt": "workspace:*"
+  }
+}

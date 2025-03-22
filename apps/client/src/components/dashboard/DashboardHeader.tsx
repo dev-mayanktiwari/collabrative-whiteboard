@@ -3,7 +3,7 @@ import { Button } from "@repo/ui";
 import { useState } from "react";
 import CreateNewBoard from "./CreateBoardDialog";
 
-export default function DashboardHeader({ onCreateNewBoard }) {
+export default function DashboardHeader() {
   const [open, setOpen] = useState(false);
   return (
     <div className="flex  md:flex-row justify-between items-start md:items-center mb-8 gap-4">
@@ -26,11 +26,7 @@ export default function DashboardHeader({ onCreateNewBoard }) {
         New Board
       </Button>
 
-      <CreateNewBoard
-        open={open}
-        onCancel={() => setOpen(false)}
-        onConfirm={onCreateNewBoard}
-      />
+      <CreateNewBoard open={open} onCancel={() => setOpen(false)} />
     </div>
   );
 }

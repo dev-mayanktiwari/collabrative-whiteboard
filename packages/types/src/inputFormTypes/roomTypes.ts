@@ -1,20 +1,30 @@
 import { z } from "zod";
 
 export const CreateRoomInput = z.object({
-  name: z.string().max(255),
+  name: z
+    .string()
+    .max(255)
+    .nonempty("Board name cannot be empty.")
+    .min(5, "Room name must be at least 5 characters long")
+    .trim(),
 });
 
 export const GetRoomShapesInput = z.object({
-  boardId: z.string().max(255),
+  boardId: z.string().max(255).trim().nonempty("Board ID cannot be empty."),
 });
 
 export const RenameRoomInput = z.object({
-  newName: z.string().max(255),
-  roomId: z.string().max(255),
+  newName: z
+    .string()
+    .max(255)
+    .nonempty("Board name cannot be empty.")
+    .min(5, "Room name must be at least 5 characters long")
+    .trim(),
+  roomId: z.string().max(255).nonempty("Board ID cannot be empty.").trim(),
 });
 
 export const UpdateRoomShapesInput = z.object({
-  roomId: z.string().max(255),
+  roomId: z.string().max(255).nonempty("Board ID cannot be empty.").trim(),
   shapes: z.any(),
 });
 

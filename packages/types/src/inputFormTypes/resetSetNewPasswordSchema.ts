@@ -5,6 +5,7 @@ export const ResetSetNewPasswordInput = z.object({
     .string()
     .min(8, "Password must be 8 characters long")
     .max(30, "Password must be 30 characters long")
+    .nonempty("Password name cannot be empty.")
     .trim(),
 });
 

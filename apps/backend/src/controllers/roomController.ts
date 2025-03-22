@@ -23,9 +23,10 @@ export default {
   createRoom: asyncErrorHandler(
     async (req: Request, res: Response, next: NextFunction) => {
       const { body, user } = req as AuthenticatedRequest;
-
+      console.log(body);
       const safeParse = CreateRoomInput.safeParse(body);
       if (!safeParse.success) {
+        console.log("Error", safeParse.error);
         return httpError(
           next,
           new Error(ResponseMessage.INVALID_INPUT),
@@ -33,6 +34,7 @@ export default {
           StatusCodes.ERROR.CLIENT_ERROR.BAD_REQUEST
         );
       }
+      
 
       const { name } = safeParse.data;
 

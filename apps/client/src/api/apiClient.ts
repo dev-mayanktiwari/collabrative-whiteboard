@@ -1,4 +1,4 @@
-import { TUserRegistrationInput } from "@repo/types";
+import { TCreateRoomInput, TUserRegistrationInput } from "@repo/types";
 import api from "./api";
 
 export default {
@@ -54,6 +54,12 @@ export default {
       roomId,
       shapes,
     });
+    return response.data;
+  },
+
+  createRoom: async (input: TCreateRoomInput) => {
+    console.log(input);
+    const response = await api.post(`/rooms/create-room`, input);
     return response.data;
   },
 };

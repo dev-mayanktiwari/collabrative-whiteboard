@@ -1,15 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { TCreateRoomInput } from "@repo/types";
 import { useState } from "react";
 import apiClient from "~/api/apiClient";
+import { TGetRoomShapesInput } from "@repo/types";
 
-const useCreateBoard = () => {
+const useDeleteBoard = () => {
   const queryClient = useQueryClient();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const mutation = useMutation({
-    mutationFn: (input: TCreateRoomInput) => {
-      return apiClient.createRoom(input);
+    mutationFn: ({ boardId }: TGetRoomShapesInput) => {
+      return apiClient.deleteRoom(boardId);
     },
     onError: (error: any) => {
       setErrorMessage(
@@ -25,18 +25,17 @@ const useCreateBoard = () => {
     },
   });
 
-  const createBoard = ({ name }: TCreateRoomInput) => {
-    mutation.mutate({ name });
+  const deleteBoard = ({ boardId }: TGetRoomShapesInput) => {
+    mutation.mutate({ boardId });
   };
 
   return {
-    createBoard: createBoard,
+    deleteBoard: deleteBoard,
     errorMessage,
     isLoading: mutation.isPending,
     isSuccess: mutation.isSuccess,
     isError: mutation,
-    reset: mutation.reset,
   };
 };
 
-export default useCreateBoard;
+export default useDeleteBoard;

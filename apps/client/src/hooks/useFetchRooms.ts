@@ -1,12 +1,21 @@
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import apiClient from "~/api/apiClient";
 
 const useFetchBoards = () => {
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const query = useQuery({
-    queryKey: "getBoards",
-    
-  })
+  console.log("Code must run here, useFetchBoards ");
+  const { data, isPending, isError, error, isSuccess, refetch } = useQuery({
+    queryKey: ["getBoards"],
+    queryFn: apiClient.getRooms,
+  });
+
+  return {
+    data,
+    isPending,
+    isError,
+    isSuccess,
+    error,
+    refetch,
+  };
 };
 
 export default useFetchBoards;

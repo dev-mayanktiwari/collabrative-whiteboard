@@ -1,4 +1,8 @@
-import { TCreateRoomInput, TUserRegistrationInput } from "@repo/types";
+import {
+  TCreateRoomInput,
+  TGetRoomShapesInput,
+  TUserRegistrationInput,
+} from "@repo/types";
 import api from "./api";
 
 export default {
@@ -9,7 +13,7 @@ export default {
 
   verifyEmail: async (token: string, code: string) => {
     const response = await api.put(
-      `/auth/verify-email?token=${token}&code=${code}`
+      `/auth/verify-email?token=${token}&code=${code}`,
     );
     return response.data;
   },
@@ -37,10 +41,8 @@ export default {
     return response.data;
   },
 
-  deleteRoom: async (roomId: string) => {
-    const response = await api.delete(`/rooms/delete-room`, {
-      data: { roomId },
-    });
+  deleteRoom: async (roomId: TGetRoomShapesInput) => {
+    const response = await api.delete(`/rooms/delete-room/${roomId.boardId}`);
     return response.data;
   },
 

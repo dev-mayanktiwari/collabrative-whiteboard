@@ -31,10 +31,9 @@ export default {
           next,
           new Error(ResponseMessage.INVALID_INPUT),
           req,
-          StatusCodes.ERROR.CLIENT_ERROR.BAD_REQUEST
+          StatusCodes.ERROR.CLIENT_ERROR.BAD_REQUEST,
         );
       }
-      
 
       const { name } = safeParse.data;
 
@@ -50,9 +49,9 @@ export default {
         "Room Created",
         {
           room: room,
-        }
+        },
       );
-    }
+    },
   ),
 
   getRooms: asyncErrorHandler(async (req: Request, res: Response) => {
@@ -75,7 +74,7 @@ export default {
           next,
           new Error(ResponseMessage.INVALID_INPUT),
           req,
-          StatusCodes.ERROR.CLIENT_ERROR.BAD_REQUEST
+          StatusCodes.ERROR.CLIENT_ERROR.BAD_REQUEST,
         );
       }
 
@@ -89,7 +88,7 @@ export default {
       return httpResponse(req, res, StatusCodes.SUCCESS.OK, "Room Fetched", {
         shapes: shapes,
       });
-    }
+    },
   ),
 
   deleteRoom: asyncErrorHandler(
@@ -97,26 +96,31 @@ export default {
       const { params, user } = req as AuthenticatedRequest;
 
       const safeParse = GetRoomShapesInput.safeParse(params);
+
       if (!safeParse.success) {
+        // TODO: Remove this log from here
+
+        const error = safeParse.error.format();
+
+        console.log("Error in input", error);
+
         return httpError(
           next,
           new Error(ResponseMessage.INVALID_INPUT),
           req,
-          StatusCodes.ERROR.CLIENT_ERROR.BAD_REQUEST
+          StatusCodes.ERROR.CLIENT_ERROR.BAD_REQUEST,
         );
       }
 
       const { boardId } = safeParse.data;
 
-      const shapes = await deleteRoom({
+      await deleteRoom({
         roomId: boardId,
         userId: String(user?.userId),
       });
 
-      return httpResponse(req, res, StatusCodes.SUCCESS.OK, "Room Fetched", {
-        shapes: shapes,
-      });
-    }
+      return httpResponse(req, res, StatusCodes.SUCCESS.OK, "Room deleted");
+    },
   ),
 
   renameRoom: asyncErrorHandler(
@@ -129,7 +133,7 @@ export default {
           next,
           new Error(ResponseMessage.INVALID_INPUT),
           req,
-          StatusCodes.ERROR.CLIENT_ERROR.BAD_REQUEST
+          StatusCodes.ERROR.CLIENT_ERROR.BAD_REQUEST,
         );
       }
 
@@ -148,9 +152,9 @@ export default {
         "Room Updated",
         {
           room: room,
-        }
+        },
       );
-    }
+    },
   ),
 
   updateRoomShapes: asyncErrorHandler(
@@ -163,7 +167,7 @@ export default {
           next,
           new Error(ResponseMessage.INVALID_INPUT),
           req,
-          StatusCodes.ERROR.CLIENT_ERROR.BAD_REQUEST
+          StatusCodes.ERROR.CLIENT_ERROR.BAD_REQUEST,
         );
       }
 
@@ -182,9 +186,9 @@ export default {
         "Room Updated",
         {
           room: room,
-        }
+        },
       );
-    }
+    },
   ),
 
   getRoomById: asyncErrorHandler(
@@ -197,7 +201,7 @@ export default {
           next,
           new Error(ResponseMessage.INVALID_INPUT),
           req,
-          StatusCodes.ERROR.CLIENT_ERROR.BAD_REQUEST
+          StatusCodes.ERROR.CLIENT_ERROR.BAD_REQUEST,
         );
       }
 
@@ -213,13 +217,13 @@ export default {
           next,
           new Error(ResponseMessage.NOT_FOUND),
           req,
-          StatusCodes.ERROR.CLIENT_ERROR.NOT_FOUND
+          StatusCodes.ERROR.CLIENT_ERROR.NOT_FOUND,
         );
       }
 
       return httpResponse(req, res, StatusCodes.SUCCESS.OK, "Room Fetched", {
         room: room,
       });
-    }
+    },
   ),
 };

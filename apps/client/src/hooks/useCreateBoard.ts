@@ -34,7 +34,7 @@ const useCreateBoard = () => {
     errorMessage,
     isLoading: mutation.isPending,
     isSuccess: mutation.isSuccess,
-    isError: mutation,
+    isError: mutation.isError,
     reset: mutation.reset,
   };
 };

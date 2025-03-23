@@ -8,8 +8,8 @@ const useDeleteBoard = () => {
   const queryClient = useQueryClient();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const mutation = useMutation({
-    mutationFn: ({ boardId }: TGetRoomShapesInput) => {
-      return apiClient.deleteRoom(boardId);
+    mutationFn: (input: TGetRoomShapesInput) => {
+      return apiClient.deleteRoom(input);
     },
     onError: (error: any) => {
       setErrorMessage(
@@ -34,7 +34,8 @@ const useDeleteBoard = () => {
     errorMessage,
     isLoading: mutation.isPending,
     isSuccess: mutation.isSuccess,
-    isError: mutation,
+    isError: mutation.isError,
+    reset: mutation.reset,
   };
 };
 

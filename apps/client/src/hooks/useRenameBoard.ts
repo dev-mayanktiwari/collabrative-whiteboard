@@ -35,7 +35,7 @@ const useRenameBoard = () => {
     errorMessage,
     isLoading: mutation.isPending,
     isSuccess: mutation.isSuccess,
-    isError: mutation,
+    isError: mutation.isError,
   };
 };
 

@@ -1,10 +1,7 @@
 import { Plus } from "lucide-react";
 import { Button } from "@repo/ui";
-import { useState } from "react";
-import CreateNewBoard from "./CreateBoardDialog";
 
-export default function DashboardHeader() {
-  const [open, setOpen] = useState(false);
+export default function DashboardHeader({ handleOpenCreateBoard }) {
   return (
     <div className="flex  md:flex-row justify-between items-start md:items-center mb-8 gap-4">
       <div>
@@ -19,14 +16,14 @@ export default function DashboardHeader() {
       </div>
 
       <Button
-        onClick={() => setOpen(true)}
+        onClick={() => handleOpenCreateBoard(true)}
         className="font-bold border-3 border-black bg-[#FF90B3] hover:bg-[#FF7DA6] shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-y-1 hover:shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] transition-all"
       >
         <Plus className="h-5 w-5 mr-2" />
         New Board
       </Button>
 
-      <CreateNewBoard open={open} onCancel={() => setOpen(false)} />
+      {/* <CreateNewBoard open={open} onCancel={() => setOpen(false)} onConfirm={handleOnCreateBoard}/> */}
     </div>
   );
 }

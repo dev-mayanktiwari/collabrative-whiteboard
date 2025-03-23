@@ -7,24 +7,19 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@repo/ui";
-import { useEffect, useState } from "react";
-import useCreateBoard from "~/hooks/useCreateBoard";
+import { useState } from "react";
 
-export default function CreateNewBoard({ open, onCancel }) {
+export default function CreateNewBoard({ open, onCancel, onConfirm }) {
   const [title, setTitle] = useState("");
-  const { createBoard, errorMessage, isLoading, isError, isSuccess, reset } =
-    useCreateBoard();
-
-  useEffect(() => {
-    if (isSuccess) {
-      setTitle("");
-    }
-  }, [isSuccess, reset]);
 
   const handleCancel = () => {
     setTitle("");
-    reset();
     onCancel();
+  };
+
+  const handleSubmit = () => {
+    onConfirm(title);
+    setTitle("");
   };
 
   return (
@@ -40,7 +35,7 @@ export default function CreateNewBoard({ open, onCancel }) {
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="name" className="text-right">
+            <Label htmlFor="title" className="text-right">
               Title of board
             </Label>
             <Input
@@ -61,19 +56,12 @@ export default function CreateNewBoard({ open, onCancel }) {
             Cancel
           </Button>
           <Button
-            onClick={() => createBoard({ name: title })}
+            onClick={handleSubmit}
+            disabled={!title.trim()}
             className="flex-1 font-bold border-3"
           >
-            {isLoading ? "Creating" : "Create"}
+            Create
           </Button>
-          {isError && (
-            <p className="text-red-500 text-sm col-span-4">{errorMessage}</p>
-          )}
-          {isSuccess && (
-            <p className="text-green-500 text-sm col-span-4">
-              Board created successfully
-            </p>
-          )}
         </DialogFooter>
       </DialogContent>
     </Dialog>

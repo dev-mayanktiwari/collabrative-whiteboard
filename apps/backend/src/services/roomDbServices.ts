@@ -21,6 +21,9 @@ export function getRooms({ userId }: { userId: string }): Promise<any> {
     where: {
       ownerId: userId,
     },
+    orderBy: {
+      createdAt: "desc",
+    },
   });
 }
 

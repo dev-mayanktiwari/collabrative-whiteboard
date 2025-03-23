@@ -14,6 +14,7 @@ export default function BoardListItem({
   onOpenBoard,
   onDeleteBoard,
   isLast,
+  onRenameBoard,
 }) {
   return (
     <div
@@ -21,11 +22,16 @@ export default function BoardListItem({
         !isLast ? "border-b-2 border-black" : ""
       }`}
     >
-      <img
+      <div className="relative">
+        <div className="w-16 h-16  border- mr-4  flex justify-center items-center bg-gradient-to-r from-yellow-500 to-pink-200 text-white text-center text-2xl font-bold border-2 border-black">
+          {board.title[0]}
+        </div>
+      </div>
+      {/* <img
         src={board.thumbnail || "/placeholder.svg"}
         alt={board.title}
         className="w-16 h-16 object-cover border-2 border-black mr-4"
-      />
+      /> */}
       <div className="flex-grow">
         <h3 className="text-lg font-bold">{board.title}</h3>
         <p className="text-sm text-gray-600">
@@ -50,7 +56,10 @@ export default function BoardListItem({
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="border-3 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-            <DropdownMenuItem className="font-medium">
+            <DropdownMenuItem
+              className="font-medium"
+              onClick={() => onRenameBoard(board)}
+            >
               <Edit className="h-4 w-4 mr-2" />
               Rename
             </DropdownMenuItem>

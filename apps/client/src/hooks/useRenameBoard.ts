@@ -10,7 +10,7 @@ const useRenameBoard = () => {
 
   const mutation = useMutation({
     mutationFn: ({ newName, roomId }: TRenameRoomInput) => {
-      return apiClient.renameRoom(roomId, newName);
+      return apiClient.renameRoom({ newName, roomId });
     },
     onError: (error: any) => {
       setErrorMessage(
@@ -36,6 +36,7 @@ const useRenameBoard = () => {
     isLoading: mutation.isPending,
     isSuccess: mutation.isSuccess,
     isError: mutation.isError,
+    reset: mutation.reset,
   };
 };
 

@@ -12,6 +12,8 @@ import useDeleteBoard from "~/hooks/useDeleteBoard";
 import useCreateBoard from "~/hooks/useCreateBoard";
 import { useToast } from "@repo/ui";
 import CreateNewBoard from "./CreateBoardDialog";
+import useRenameBoard from "~/hooks/useRenameBoard";
+import RenameDialog from "./RenameDialog";
 
 export default function DashboardFull() {
   const navigate = useNavigate();
@@ -22,6 +24,7 @@ export default function DashboardFull() {
   const [searchQuery, setSearchQuery] = useState("");
   const [boardToDelete, setBoardToDelete] = useState(null);
   const [isCreateBoardDialogOpen, setIsCreateBoardDialogOpen] = useState(false);
+  const [boardToRename, setBoardToRename] = useState(null);
 
   // Fetch boards hook
   const { data, isPending, isError: isFetchError } = useFetchBoards();
@@ -44,6 +47,15 @@ export default function DashboardFull() {
     reset: resetCreate,
   } = useCreateBoard();
 
+  // Rename board hook
+  const {
+    renameBoard,
+    isSuccess: isRenameSuccess,
+    isError: isRenameError,
+    errorMessage: renameErrorMessage,
+    reset: resetRename,
+  } = useRenameBoard();
+
   // Filter boards based on search query
   const filteredBoards = boards.filter((board) =>
     board.title.toLowerCase().includes(searchQuery.toLowerCase())
@@ -64,6 +76,18 @@ export default function DashboardFull() {
   const handleCreateNewBoard = (title) => {
     if (title.trim()) {
       createBoard({ name: title });
+    }
+  };
+
+  // Handle board renaming
+  const handleBoardRename = (board) => {
+    setBoardToRename(board);
+  };
+
+  const confirmRename = (board, newName) => {
+    console.log("confirmRename", board, newName);
+    if (newName.trim()) {
+      renameBoard({ roomId: board.boardId, newName });
     }
   };
 
@@ -118,6 +142,31 @@ export default function DashboardFull() {
     }
   }, [isCreateError, createErrorMessage, toast, resetCreate]);
 
+  // Rename board success
+  useEffect(() => {
+    if (isRenameSuccess) {
+      toast({
+        description: "Board renamed successfully.",
+        duration: 5000,
+      });
+      resetRename();
+      setBoardToRename(null);
+    }
+  }, [isRenameSuccess, toast, resetRename]);
+
+  // Rename board error
+  useEffect(() => {
+    if (isRenameError) {
+      toast({
+        variant: "destructive",
+        description: `Failed to rename board: ${renameErrorMessage || "Unknown error"}`,
+        duration: 5000,
+      });
+      resetRename();
+      setBoardToRename(null);
+    }
+  }, [isRenameError, renameErrorMessage, toast, resetRename]);
+
   return (
     <div className="p-6 bg-bg container mx-auto">
       <DashboardHeader
@@ -141,12 +190,14 @@ export default function DashboardFull() {
         <BoardGrid
           boards={filteredBoards}
           onDeleteBoard={handleDeleteBoard}
+          onRenameBoard={handleBoardRename}
           onOpenBoard={(id) => navigate(`/board/${id}`)}
         />
       ) : (
         <BoardList
           boards={filteredBoards}
           onDeleteBoard={handleDeleteBoard}
+          onRenameBoard={handleBoardRename}
           onOpenBoard={(id) => navigate(`/board/${id}`)}
         />
       )}
@@ -164,6 +215,15 @@ export default function DashboardFull() {
           resetCreate();
         }}
         onConfirm={handleCreateNewBoard}
+      />
+
+      <RenameDialog
+        boardToRename={boardToRename}
+        onCancel={() => {
+          setBoardToRename(null);
+          resetRename();
+        }}
+        onConfirm={confirmRename}
       />
     </div>
   );

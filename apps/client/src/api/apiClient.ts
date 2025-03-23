@@ -1,6 +1,7 @@
 import {
   TCreateRoomInput,
   TGetRoomShapesInput,
+  TRenameRoomInput,
   TUserRegistrationInput,
 } from "@repo/types";
 import api from "./api";
@@ -13,7 +14,7 @@ export default {
 
   verifyEmail: async (token: string, code: string) => {
     const response = await api.put(
-      `/auth/verify-email?token=${token}&code=${code}`,
+      `/auth/verify-email?token=${token}&code=${code}`
     );
     return response.data;
   },
@@ -33,11 +34,8 @@ export default {
     return response.data;
   },
 
-  renameRoom: async (roomId: string, name: string) => {
-    const response = await api.put(`/rooms/rename-room`, {
-      name: name,
-      roomId: roomId,
-    });
+  renameRoom: async (input: TRenameRoomInput) => {
+    const response = await api.put(`/rooms/rename-room`, input);
     return response.data;
   },
 

@@ -1,7 +1,11 @@
 import BoardCard from "./BoardCard";
 
-export default function BoardGrid({ boards, onOpenBoard, onDeleteBoard }) {
-  
+export default function BoardGrid({
+  boards,
+  onOpenBoard,
+  onDeleteBoard,
+  onRenameBoard,
+}) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
       {boards.map((board) => (
@@ -10,6 +14,7 @@ export default function BoardGrid({ boards, onOpenBoard, onDeleteBoard }) {
           board={board}
           onOpenBoard={onOpenBoard}
           onDeleteBoard={onDeleteBoard}
+          onRenameBoard={onRenameBoard}
         />
       ))}
     </div>

@@ -9,18 +9,26 @@ import {
 } from "@repo/ui";
 import { formatDate } from "../../utils/formatters";
 
-export default function BoardCard({ board, onOpenBoard, onDeleteBoard }) {
+export default function BoardCard({
+  board,
+  onOpenBoard,
+  onDeleteBoard,
+  onRenameBoard,
+}) {
   return (
     <div
       className="bg-white border-4 border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-y-1 hover:shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] transition-all"
       style={{ transform: `rotate(${Math.random() * 2 - 1}deg)` }}
     >
       <div className="relative">
-        <img
-          src={board.thumbnail || "/placeholder.svg"}
+        <div className="w-full flex justify-center items-center h-40 bg-gradient-to-r from-yellow-500 to-pink-200 text-white text-center text-2xl font-bold border-b-4 border-black">
+          {board.title}
+        </div>
+        {/* <img
+          data-src={`holder.js/300x200`}
           alt={board.title}
           className="w-full h-40 object-cover border-b-4 border-black"
-        />
+        /> */}
         <div className="absolute top-2 right-2">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -33,7 +41,10 @@ export default function BoardCard({ board, onOpenBoard, onDeleteBoard }) {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="border-3 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-              <DropdownMenuItem className="font-medium">
+              <DropdownMenuItem
+                className="font-medium"
+                onClick={() => onRenameBoard(board)}
+              >
                 <Edit className="h-4 w-4 mr-2" />
                 Rename
               </DropdownMenuItem>

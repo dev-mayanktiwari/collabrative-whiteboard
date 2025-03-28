@@ -41,12 +41,13 @@ model User {
 model WhiteBoard {
   boardId String @id @default(cuid())
   title   String
-  shapes  Json
+  shapes  Json[] @default([])
   ownerId String
   owner   User   @relation("user_owned_boards", fields: [ownerId], references: [userId], onDelete: Cascade)
 
   sharedWith User[]   @relation("user_shared_boards")
   createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 
   @@map("white_boards")
 }

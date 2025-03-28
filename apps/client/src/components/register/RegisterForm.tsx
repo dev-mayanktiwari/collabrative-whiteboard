@@ -49,11 +49,11 @@ export default function RegisterPage() {
 
       // Navigate to dashboard after successful login
       // navigate("/dashboard");
-      console.log("Registration successful", res);
+      // console.log("Registration successful", res);
     } catch (error: any) {
       // Display error using toast notification only
-      console.log("error", error);
-      console.log("meesage", error.response?.data?.message);
+      // console.log("error", error);
+      // console.log("meesage", error.response?.data?.message);
       const errorMessage =
         error.response?.data?.message ||
         "Something went wrong. Please try again.";

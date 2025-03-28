@@ -13,6 +13,9 @@ import Dashboard from "./pages/Dashboard.tsx";
 import Login from "./pages/Login.tsx";
 import ProtectedRoute from "./components/providers/Protection.tsx";
 import Canvas from "./pages/Canvas.tsx";
+import NotFoundPage from "./components/errors/NotFound.tsx";
+import { ErrorBoundary } from "react-error-boundary";
+import ErrorFallbackComponent from "./components/errors/ErrorBoundary.tsx";
 
 const router = createBrowserRouter([
   {
@@ -53,21 +56,26 @@ const router = createBrowserRouter([
   },
   {
     path: "*",
-    element: (
-      <div className="font-extrabold text-4xl text-red-600">404 Not Found</div>
-    ),
+    element: <NotFoundPage />,
   },
 ]);
 
 const queryClient = new QueryClient();
 
 createRoot(document.getElementById("root")!).render(
-  <QueryClientProvider client={queryClient}>
-    <RecoilRoot>
-      <AuthWrapper>
-        <Toaster />
-        <RouterProvider router={router} />
-      </AuthWrapper>
-    </RecoilRoot>
-  </QueryClientProvider>
+  <ErrorBoundary
+    FallbackComponent={ErrorFallbackComponent}
+    onError={(error, info) => {
+      console.error("Global Error Caught:", error, info);
+    }}
+  >
+    <QueryClientProvider client={queryClient}>
+      <RecoilRoot>
+        <AuthWrapper>
+          <Toaster />
+          <RouterProvider router={router} />
+        </AuthWrapper>
+      </RecoilRoot>
+    </QueryClientProvider>
+  </ErrorBoundary>
 );

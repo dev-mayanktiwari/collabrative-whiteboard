@@ -18,25 +18,23 @@ export const useAuth = () => {
   };
 
   const logOut = async () => {
-    
     localStorage.removeItem("accessToken");
     localStorage.removeItem("currentUser");
     setAuth({ accessToken: null, user: null });
     await apiClient.logout();
     window.location.href = "/login";
-    
   };
 
   const checkAuth = async () => {
     try {
       const data = await apiClient.self();
-      console.log("Calling from inside hooks/useAuth.ts", data);
+      // console.log("Calling from inside hooks/useAuth.ts", data);
       setAuth({
         accessToken: localStorage.getItem("accessToken"),
         user: data.data.user,
       });
-    } catch (error) {
-      console.log("Calling from inside hooks/useAuth.ts for logout", error);
+    } catch {
+      // console.log("Calling from inside hooks/useAuth.ts for logout", error);
       logOut();
     }
   };

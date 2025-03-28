@@ -1,8 +1,10 @@
 import { Button } from "@repo/ui";
 import { ArrowRight } from "lucide-react";
 import CanvasPreview from "./CanvasPreview";
+import { useNavigate } from "react-router-dom";
 
 const Hero = () => {
+  const navigate = useNavigate();
   return (
     <div className="bg-bg mx-auto pt-16 pb-24 z-10">
       <div className="container mx-auto flex  md:flex-row items-center justify-between gap-8 z-10">
@@ -21,7 +23,10 @@ const Hero = () => {
             to sketch, brainstorm, and create together with the help of
             artificial intelligence.
           </p>
-          <Button className="group text-xl p-5">
+          <Button
+            className="group text-xl p-5"
+            onClick={() => navigate("/register")}
+          >
             <div className="flex items-center gap-2">
               Start Drawing
               <ArrowRight className="group-hover:translate-x-1 transition-transform" />

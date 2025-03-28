@@ -15,7 +15,7 @@ const api = axios.create({
 api.interceptors.request.use(
   (config) => {
     const accessToken = localStorage.getItem("accessToken");
-    console.log("Sendin token and calling from inside api.ts", accessToken);
+    // console.log("Sendin token and calling from inside api.ts", accessToken);
     if (accessToken && config.headers) {
       config.headers.Authorization = `${accessToken}`;
     }

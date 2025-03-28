@@ -58,7 +58,7 @@ export default {
   },
 
   createRoom: async (input: TCreateRoomInput) => {
-    console.log(input);
+    // console.log(input);
     const response = await api.post(`/rooms/create-room`, input);
     return response.data;
   },

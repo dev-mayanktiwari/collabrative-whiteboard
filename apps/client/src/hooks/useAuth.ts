@@ -18,11 +18,13 @@ export const useAuth = () => {
   };
 
   const logOut = async () => {
-    await api.post("/auth/logout");
+    
     localStorage.removeItem("accessToken");
     localStorage.removeItem("currentUser");
     setAuth({ accessToken: null, user: null });
+    await apiClient.logout();
     window.location.href = "/login";
+    
   };
 
   const checkAuth = async () => {

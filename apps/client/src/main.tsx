@@ -12,7 +12,7 @@ import AuthWrapper from "./components/providers/AuthWrapper.tsx";
 import Dashboard from "./pages/Dashboard.tsx";
 import Login from "./pages/Login.tsx";
 import ProtectedRoute from "./components/providers/Protection.tsx";
-import Whiteboard from "./components/canvas/Whiteboard.tsx";
+import Canvas from "./pages/Canvas.tsx";
 
 const router = createBrowserRouter([
   {
@@ -29,7 +29,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "",
-        element: <Whiteboard />,
+        element: <Canvas />,
       },
     ],
   },

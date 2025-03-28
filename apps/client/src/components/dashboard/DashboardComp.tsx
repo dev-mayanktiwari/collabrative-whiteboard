@@ -191,14 +191,14 @@ export default function DashboardFull() {
           boards={filteredBoards}
           onDeleteBoard={handleDeleteBoard}
           onRenameBoard={handleBoardRename}
-          onOpenBoard={(id) => navigate(`/board/${id}`)}
+          onOpenBoard={(id) => navigate(`/canvas/${id}`)}
         />
       ) : (
         <BoardList
           boards={filteredBoards}
           onDeleteBoard={handleDeleteBoard}
           onRenameBoard={handleBoardRename}
-          onOpenBoard={(id) => navigate(`/board/${id}`)}
+          onOpenBoard={(id) => navigate(`/canvas/${id}`)}
         />
       )}
 

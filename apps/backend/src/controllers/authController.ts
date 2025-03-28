@@ -473,13 +473,13 @@ export default {
 
     const clearAuthCookies = () => {
       const cookieOptions = {
-        path: "/api/v1/",
+        path: "/api/v1",
         domain: String(AppConfig.get("COOKIE_DOMAIN")),
         sameSite: "lax" as const,
         httpOnly: true,
         secure: AppConfig.get("ENV") === ApplicationEnvirontment.PRODUCTION,
       };
-
+  
       res.clearCookie("refreshToken", cookieOptions);
     };
 

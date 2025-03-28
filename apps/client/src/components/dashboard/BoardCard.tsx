@@ -8,6 +8,7 @@ import {
   DropdownMenuTrigger,
 } from "@repo/ui";
 import { formatDate } from "../../utils/formatters";
+import CopyToClipboard from "./CopyToClipboard";
 
 export default function BoardCard({
   board,
@@ -48,7 +49,10 @@ export default function BoardCard({
                 <Edit className="h-4 w-4 mr-2" />
                 Rename
               </DropdownMenuItem>
-              <DropdownMenuItem className="font-medium">
+              <DropdownMenuItem
+                className="font-medium"
+                onClick={() => CopyToClipboard({ url: String(board.boardId) })}
+              >
                 <Share2 className="h-4 w-4 mr-2" />
                 Share
               </DropdownMenuItem>

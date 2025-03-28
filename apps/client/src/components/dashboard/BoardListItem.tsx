@@ -8,6 +8,7 @@ import {
   DropdownMenuTrigger,
 } from "@repo/ui";
 import { formatDate } from "../../utils/formatters";
+import CopyToClipboard from "./CopyToClipboard";
 
 export default function BoardListItem({
   board,
@@ -40,8 +41,8 @@ export default function BoardListItem({
       </div>
       <div className="flex items-center gap-2">
         <Button
-          onClick={() => onOpenBoard(board.id)}
-          className="font-bold border-2 border-black bg-[#A0D2EB] hover:bg-[#8BC0E0] shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] hover:translate-y-1 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all"
+          onClick={() => onOpenBoard(board.boardId)}
+          className="font-bold border-2 border-black bg-[#A0D2EB]"
         >
           Open
         </Button>
@@ -63,7 +64,10 @@ export default function BoardListItem({
               <Edit className="h-4 w-4 mr-2" />
               Rename
             </DropdownMenuItem>
-            <DropdownMenuItem className="font-medium">
+            <DropdownMenuItem
+              className="font-medium"
+              onClick={() => CopyToClipboard({ url: String(board.boardId) })}
+            >
               <Share2 className="h-4 w-4 mr-2" />
               Share
             </DropdownMenuItem>

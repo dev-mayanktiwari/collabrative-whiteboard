@@ -2,7 +2,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { PenTool, ArrowRight, Loader2 } from "lucide-react";
+import { ArrowRight, Loader2 } from "lucide-react";
 import { Button } from "@repo/ui";
 import {
   Form,
@@ -19,7 +19,7 @@ import { useAuth } from "~/hooks/useAuth";
 import { useToast } from "@repo/ui";
 import NavBar from "../neutral/NavBar";
 
-console.log(UserLoginInput);
+//console.log(UserLoginInput);
 
 export default function LoginPage() {
   const { login } = useAuth();
@@ -39,21 +39,18 @@ export default function LoginPage() {
 
   async function onSubmit(data: TUserLoginInput) {
     try {
-      const res = await login(data);
-
+      await login(data);
       toast({
         title: "Welcome back!",
         description: "You've successfully logged in to Smart Draw.",
         duration: 5000,
       });
-
-      // Navigate to dashboard after successful login
-      // navigate("/dashboard");
-      console.log("Login successful", res);
+      navigate("/dashboard");
+      // console.log("Login successful", res);
     } catch (error: any) {
       // Display error using toast notification only
-      console.log("error", error);
-      console.log("meesage", error.response?.data?.message);
+      // console.log("error", error);
+      // console.log("meesage", error.response?.data?.message);
       const errorMessage =
         error.response?.data?.message ||
         "Something went wrong. Please try again.";
@@ -125,12 +122,12 @@ export default function LoginPage() {
                         <FormLabel className="text-lg font-bold">
                           Password
                         </FormLabel>
-                        <Link
+                        {/* <Link
                           to="/forgot-password"
                           className="text-sm font-medium text-[#FF90B3] hover:underline"
                         >
                           Forgot password?
-                        </Link>
+                        </Link> */}
                       </div>
                       <FormControl>
                         <Input

@@ -8,11 +8,11 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { Toaster } from "@repo/ui";
 import Register from "./pages/Register.tsx";
 import VerifyEmail from "./pages/VerifyEmal.tsx";
-import ProtectedDashboard from "./pages/Dashboard.tsx";
 import AuthWrapper from "./components/providers/AuthWrapper.tsx";
 import Dashboard from "./pages/Dashboard.tsx";
 import Login from "./pages/Login.tsx";
 import ProtectedRoute from "./components/providers/Protection.tsx";
+import Whiteboard from "./components/canvas/Whiteboard.tsx";
 
 const router = createBrowserRouter([
   {
@@ -22,6 +22,16 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <Login />,
+  },
+  {
+    path: "/canvas/:canvasId",
+    element: <ProtectedRoute />,
+    children: [
+      {
+        path: "",
+        element: <Whiteboard />,
+      },
+    ],
   },
   {
     path: "/register",

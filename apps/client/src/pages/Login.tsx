@@ -7,7 +7,7 @@ import LoginPage from "~/components/login/LoginForm";
 const Login = () => {
   const navigate = useNavigate();
   const { user } = useRecoilValue(authState);
-  console.log("Calling from inside pages/Login.tsx", user);
+  // console.log("Calling from inside pages/Login.tsx", user);
   
   useEffect(() => {
     if (user) {

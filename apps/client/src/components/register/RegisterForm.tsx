@@ -39,7 +39,7 @@ export default function RegisterPage() {
 
   async function onSubmit(data: TUserRegistrationInput) {
     try {
-      const res = await apiClient.register(data);
+      await apiClient.register(data);
 
       toast({
         title: "Email Verification Needed!",

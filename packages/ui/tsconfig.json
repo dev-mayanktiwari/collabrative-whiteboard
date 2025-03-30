@@ -1,11 +1,21 @@
 {
-  "extends": "@repo/typescript-config/react-library.json",
-  "compilerOptions":{
+  "extends": "@repo/typescript-config/base.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
     "paths": {
-     "@/*": ["./src/*"]
+      "@/*": ["./src/*"]
     },
     "outDir": "./dist",
-    "rootDir": "./src"
+    "rootDir": "./src",
+    "target": "es2018",
+    "lib": ["es2018", "dom"],
+    "module": "esnext",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "strict": true,
+    "declaration": true,
+    "noImplicitAny": true,
+    "skipLibCheck": true,
   },
   "include": ["src"],
   "exclude": ["dist", "build", "node_modules"]

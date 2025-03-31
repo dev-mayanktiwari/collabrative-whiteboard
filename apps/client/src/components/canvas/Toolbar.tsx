@@ -29,7 +29,7 @@ export function Toolbar({
     { id: "rectangle", icon: <Square size={20} />, label: "Rectangle" },
     { id: "ellipse", icon: <Circle size={20} />, label: "Ellipse" },
     { id: "line", icon: <Minus size={20} />, label: "Line" },
-    { id: "arrow", icon: <ArrowRight size={20} />, label: "Arrow" },
+    // { id: "arrow", icon: <ArrowRight size={20} />, label: "Arrow" },
     // { id: "drag", icon: <Hand size={20} />, label: "Pan" },
   ];
 

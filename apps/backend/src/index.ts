@@ -23,6 +23,7 @@ app.use(cookieParser());
 
 configureLogger({
   env: String(AppConfig.get("ENV")),
+  mongoUrl: String(AppConfig.get("MONGO_URL")),
 });
 
 app.use("/api/v1/health", healthRouter);

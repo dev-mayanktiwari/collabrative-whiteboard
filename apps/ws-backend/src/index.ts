@@ -16,9 +16,22 @@ class WhiteboardServer {
 
   private async handleConnection(ws: WebSocket, req: any) {
     try {
+      // Handle ping healthcheck independently of whiteboard connections
+      ws.on("message", (message) => {
+        if (message.toString() === "ping") {
+          ws.send("pong");
+          return;
+        }
+      });
+
       const whiteboardId = this.extractWhiteboardId(req);
       if (!whiteboardId) {
-        this.sendError(ws, "No whiteboard ID provided");
+        // This is either a health check connection or invalid
+        // For health checks, we've already set up the ping handler above
+        // For invalid connections without a health check purpose, we'll close them
+        if (!req.url.includes("ping") && !req.url.includes("health")) {
+          this.sendError(ws, "No whiteboard ID provided");
+        }
         return;
       }
 
@@ -28,8 +41,11 @@ class WhiteboardServer {
       // Load and send initial state
       await this.loadAndSendInitialState(whiteboardId, ws);
 
-      // Handle incoming messages
+      // Handle whiteboard-related messages
       ws.on("message", async (message) => {
+        // Skip the ping messages as they're handled in the earlier listener
+        if (message.toString() === "ping") return;
+
         try {
           const data = JSON.parse(message.toString());
           await this.handleIncomingMessage(whiteboardId, data, ws);

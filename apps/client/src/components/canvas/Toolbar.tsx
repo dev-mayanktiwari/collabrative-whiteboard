@@ -4,7 +4,7 @@ import {
   Square,
   Circle,
   Minus,
-  ArrowRight,
+  // ArrowRight,
   // Hand,
   Download,
   Trash2,

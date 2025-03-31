@@ -82,7 +82,7 @@ export default function Whiteboard() {
   // Connect WebSocket
   useEffect(() => {
     const socket = new WebSocket(
-      `ws://localhost:8080?whiteboardId=${canvasId}&token=${accessToken}`
+      `${import.meta.env.WS_URL}?whiteboardId=${canvasId}&token=${accessToken}`
     );
 
     socket.onopen = () => {
